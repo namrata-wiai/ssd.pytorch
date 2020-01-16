@@ -182,3 +182,10 @@ class VOCDetection(data.Dataset):
             tensorized version of img, squeezed
         '''
         return torch.Tensor(self.pull_image(index)).unsqueeze_(0)
+
+
+if __name__=="__main__":
+    dataset = VOCDetection(root='/scratchd/data/readwrite/standard_datasets/VOCdevkit')
+    for i in range(dataset.__len__()):
+        item = dataset[i]
+        import pdb; pdb.set_trace()
