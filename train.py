@@ -24,7 +24,7 @@ def str2bool(v):
 parser = argparse.ArgumentParser(
     description='Single Shot MultiBox Detector Training With Pytorch')
 train_set = parser.add_mutually_exclusive_group()
-parser.add_argument('--dataset', default='VOC', choices=['VOC', 'COCO'],
+parser.add_argument('--dataset', default='VOC', choices=['VOC', 'COCO', 'BABY'],
                     type=str, help='VOC or COCO')
 parser.add_argument('--dataset_root', default=VOC_ROOT,
                     help='Dataset root directory path')
@@ -88,6 +88,11 @@ def train():
         dataset = VOCDetection(root=args.dataset_root,
                                transform=SSDAugmentation(cfg['min_dim'],
                                                          MEANS))
+    elif args.dataset == 'BABY':
+        if args.dataset_root == COCO_ROOT:
+            parser.error('Must specify dataset if specifying dataset_root')
+        cfg = baby
+        dataset = BabyDetection(root=args.dataset_root)
 
     if args.visdom:
         import visdom
